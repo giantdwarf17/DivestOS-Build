@@ -21,10 +21,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt update -y && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt -f install -y && sudo apt autoremove -y
-          sudo apt install -y autoconf automake bc bison build-essential ccache curl expat flex g++ gawk gcc gcc-multilib git-core git-lfs g++-multilib gnupg gperf lib32ncurses5-dev lib32z1-dev lib32z-dev libc6-dev libc6-dev-i386 libcap-dev libexpat1-dev libgl1-mesa-dev libgmp-dev libmpc-dev libmpfr-dev libncurses5-dev libsdl1.2-dev libtool libx11-dev libxml2 libxml2-utils lzop maven ncurses-dev openjdk-8-jdk patch pkg-config pngcrush python-all-dev schedtool squashfs-tools subversion texinfo unzip x11proto-core-dev xsltproc zip zlib1g-dev imagemagick firejail optipng jpegoptim openssl nano htop wget;
-          sudo apt clean
-          
+          sudo apt update -y
+          sudo apt install -y autoconf automake bc bison build-essential ccache curl flex g++ gawk git-core git-lfs gnupg gperf lib32ncurses5-dev lib32z1-dev libgmp-dev libmpc-dev libmpfr-dev libncurses5-dev python3 python3-pip python3-venv zip zlib1g-dev
+
+
+      - name: Setup workspace
+        run: |
+          mkdir -p $HOME/DivestOS/Build/LineageOS-20.0
+
       - name: Install repo
         run: |
           mkdir -p ~/.bin
@@ -53,17 +57,17 @@ jobs:
           
       - name: Make directories
         run: |
-          cd ~/DivestOS
-          mkdir -p Build/LineageOS-20.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
+          cd $HOME/DivestOS
+          mkdir -p Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
 
       - name: Get Manifest
         run: |
-          cd ~/DivestOS/Build/LineageOS-20.0
+          cd $HOME/DivestOS/Build/LineageOS-21.0
           cat ../../Manifests/Manifest_LAOS-20.0.xml > .repo/local_manifests/local_manifest.xml
 
       - name: Vendor blobs
         run: |
-          cd ~/DivestOS/Build/LineageOS-20.0
+          cd $HOME/DivestOS/Build/LineageOS-21.0
           githuborg="lineageos"  # put the correct github organization here
           sed -i "/github/s/\[COLOUR IN THE LINES\]/$githuborg/g" .repo/local_manifests/local_manifest.xml
           gitlaborg="lineageos"  # put the correct gitlab organization here
@@ -71,13 +75,13 @@ jobs:
 
       - name: Download source code
         run: |
-          cd ~/DivestOS/Build/LineageOS-20.0
-          repo init -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs --repo-url=https://gerrit.googlesource.com/git-repo --repo-rev=stable
+          cd $HOME/DivestOS/Build/LineageOS-21.0
+          repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs --repo-url=https://gerrit.googlesource.com/git-repo --repo-rev=stable
           repo sync --force-sync
 
       - name: Generate signed keys
         run: |
-          cd ~/DivestOS/Build/LineageOS-20.0
+          cd $HOME/DivestOS/Build/LineageOS-21.0
           source ../../Scripts/init.sh;
           awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk
           source build/envsetup.sh && breakfast lineage_sailfish-user && make -j20 generate_verity_key
@@ -86,7 +90,7 @@ jobs:
           
       - name: Start build
         run: |
-          cd ~/DivestOS/Build/LineageOS-20.0;
+          cd $HOME/DivestOS/Build/LineageOS-21.0;
           source ../../Scripts/init.sh;
           resetWorkspace;
           # Remove remenants
