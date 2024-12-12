@@ -22,7 +22,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update && sudo apt upgrade && sudo apt full-upgrade && sudo apt -f install && sudo apt autoremove
-          sudo ln -s /usr/include/asm-generic /usr/include/asm
           sudo apt install autoconf automake bc bison build-essential ccache curl expat flex g++ gawk gcc gcc-multilib git-core git-lfs g++-multilib gnupg gperf lib32ncurses5-dev lib32z1-dev lib32z-dev libc6-dev libc6-dev-i386 libcap-dev libexpat1-dev libgl1-mesa-dev libgmp-dev libmpc-dev libmpfr-dev libncurses5-dev libsdl1.2-dev libtool libx11-dev libxml2 libxml2-utils lzop maven ncurses-dev openjdk-8-jdk patch pkg-config pngcrush python-all-dev schedtool squashfs-tools subversion texinfo unzip x11proto-core-dev xsltproc zip zlib1g-dev imagemagick firejail optipng jpegoptim openssl nano htop wget;
           sudo apt clean
           
