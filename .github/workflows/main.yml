@@ -73,7 +73,7 @@ jobs:
         run: |
           cd ~/DivestOS/Build/LineageOS-20.0
           repo init -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs --repo-url=https://gerrit.googlesource.com/git-repo --repo-rev=stable
-          repo sync
+          repo sync --force-sync
 
       - name: Generate signed keys
         run: |
