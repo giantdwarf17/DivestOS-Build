@@ -1,0 +1,109 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build Android TV
+
+on:
+  # schedule:
+  #   - cron: "0 0 * * 0"  # Runs once a week (Sunday at midnight)
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo dnf update &&
+          sudo dnf install @development-tools android-tools automake bc bison bzip2 bzip2-libs ccache curl dpkg-dev flex gcc gcc-c++ git git-lfs glibc-devel.{x86_64,i686} gnupg gperf ImageMagick ImageMagick-c++-devel ImageMagick-devel java-1.8.0-openjdk java-1.8.0-openjdk-devel libgcc.{x86_64,i686} libstdc++.{x86_64,i686} libX11-devel.{x86_64,i686} libxml2-devel libXrandr.{x86_64,i686} libXrender.{x86_64,i686} libxslt lz4-libs lzop make maven mesa-libGL-devel.{x86_64,i686} ncurses ncurses-compat-libs ncurses-devel.{x86_64,i686} ninja-build openssl-devel optipng jpegoptim perl perl-Digest-MD5-File perl-Switch pngcrush python python2 python3-virtualenv python3 python3-mako python-mako python-markdown python-networkx readline-devel.{x86_64,i686} rsync schedtool SDL squashfs-tools syslinux-devel unzip wxGTK xml2 xz-lzma-compat zip zlib zlib-devel vim-common vboot-utils mozilla-fira-mono-fonts mozilla-fira-sans-fonts openssl nano htop wget libxcrypt-compat.x86_64 golang openssl-devel-engine
+          
+      - name: Install repo
+        run: |
+          mkdir -p ~/.bin
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+          chmod a+rx ~/.bin/repo
+          echo ~/.bin >> $GITHUB_PATH
+          sudo ln -sf /usr/share/crypto-policies/LEGACY/java.txt /etc/crypto-policies/back-ends/java.config
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git lfs install
+          sed -i 's|git@gitlab.com:|https://gitlab.com/|' .git/config .gitmodules
+          git submodule update --init --recursive
+
+      - name: Setup caching
+        run: |
+          mkdir ccache
+          echo "export USE_CCACHE=1;" >> $GITHUB_PATH
+          echo "export CCACHE_COMPRESS=1;" >> $GITHUB_PATH
+          echo "export CCACHE_COMPRESSLEVEL=1;" >> $GITHUB_PATH
+          echo "export CCACHE_EXEC=/usr/bin/ccache;" >> $GITHUB_PATH
+          echo "export CCACHE_DIR=[PATH TO CCACHE DIRECTORY];" >> $GITHUB_PATH
+          ccache -M 128GB
+          
+      - name: Clone
+        run: |
+          git clone https://codeberg.org/divested-mobile/divestos-build.git ~/DivestOS
+          
+      - name: Make directories
+        run: |
+          cd ~/DivestOS
+          mkdir -p Build/LineageOS-20.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
+
+      - name: Encrypted key storage
+        run: |
+          cd ~/DivestOS
+          gocryptfs -init .Signing_Keys
+          gocryptfs .Signing_Keys/ Signing_Keys/
+
+      - name: Get Manifest
+        run: |
+          cd ~/DivestOS/Build/LineageOS-20.0
+          cat ../../Manifests/Manifest_LAOS-20.0.xml > .repo/local_manifests/local_manifest.xml
+          
+      - name: Download source code
+        run: |
+          cd ~/DivestOS/Build/LineageOS-20.0
+          repo init -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs
+          repo sync
+
+      - name: Generate signed keys
+        run: |
+          cd ~/DivestOS/Build/LineageOS-20.0
+          source ../../Scripts/init.sh;
+          awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk
+          source build/envsetup.sh && breakfast lineage_sailfish-user && make -j20 generate_verity_key
+          sh ../../Scripts/Generate_Signing_Keys.sh $device
+          mv -nv $DOS_SIGNING_KEYS/NEW/* "$DOS_SIGNING_KEYS/"
+          
+      - name: Start build
+        run: |
+          cd ~/DivestOS/Build/LineageOS-20.0;
+          source ../../Scripts/init.sh;
+          resetWorkspace;
+          # Remove remenants
+          rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
+          rm -rf out;
+          patchWorkspace;
+          buildDevice atv
+          
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: nightly-tag-${{ env.NOW }}
+          name: nightly-release-${{ env.NOW }}
+          body: DivestOS build for x84_64 Android TV
+          artifacts: |
+            $DOS_BUILDS/*.zip
