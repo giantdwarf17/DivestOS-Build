@@ -63,9 +63,6 @@ jobs:
 
       - name: Vendor blobs
         run: |
-          #Add the vendor blobs!
-          ##You must find these repos yourself. Extracting them is NOT correct.
-          ##20.0 changed from per-vendor to per-device.
           cd ~/DivestOS/Build/LineageOS-20.0
           githuborg="https://github.com/lineageos"  # put the correct github organization here
           sed -i "/github/s/\[COLOUR IN THE LINES\]/$githuborg/g" .repo/local_manifests/local_manifest.xml
