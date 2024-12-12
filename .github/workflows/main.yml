@@ -60,12 +60,6 @@ jobs:
           cd ~/DivestOS
           mkdir -p Build/LineageOS-20.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
 
-      - name: Encrypted key storage
-        run: |
-          cd ~/DivestOS
-          gocryptfs -init .Signing_Keys
-          gocryptfs .Signing_Keys/ Signing_Keys/
-
       - name: Get Manifest
         run: |
           cd ~/DivestOS/Build/LineageOS-20.0
