@@ -51,10 +51,6 @@ jobs:
           echo "export CCACHE_DIR=[PATH TO CCACHE DIRECTORY];" >> $GITHUB_PATH
           ccache -M 128GB
           
-      - name: Clone
-        run: |
-          git clone https://codeberg.org/divested-mobile/divestos-build.git ~/DivestOS
-          
       - name: Make directories
         run: |
           cd ~/DivestOS
