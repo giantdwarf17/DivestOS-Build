@@ -24,11 +24,6 @@ jobs:
           sudo apt update -y
           sudo apt install -y autoconf automake bc bison build-essential ccache curl flex g++ gawk git-core git-lfs gnupg gperf lib32ncurses5-dev lib32z1-dev libgmp-dev libmpc-dev libmpfr-dev libncurses5-dev python3 python3-pip python3-venv zip zlib1g-dev
 
-
-      - name: Setup workspace
-        run: |
-          mkdir -p $HOME/DivestOS/Build/LineageOS-20.0
-
       - name: Install repo
         run: |
           mkdir -p ~/.bin
@@ -57,8 +52,7 @@ jobs:
           
       - name: Make directories
         run: |
-          cd $HOME/DivestOS
-          mkdir -p Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
+          mkdir -p $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
 
       - name: Get Manifest
         run: |
