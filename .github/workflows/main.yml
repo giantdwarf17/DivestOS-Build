@@ -31,7 +31,6 @@ jobs:
           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
           chmod a+rx ~/.bin/repo
           echo ~/.bin >> $GITHUB_PATH
-          sudo ln -sf /usr/share/crypto-policies/LEGACY/java.txt /etc/crypto-policies/back-ends/java.config
 
       - name: Configure Git
         run: |
