@@ -207,6 +207,9 @@
 	<!-- OnePlus 9 (lemonade) -->
 	<project path="device/oneplus/lemonade" name="LineageOS/android_device_oneplus_lemonade" remote="github" revision="lineage-21" />
 
+	<!-- Generic Android TV -->
+	<project path="device/lineage/atv" name="LineageOS/android_device_lineage_atv" remote="github" revision="lineage-21" />
+
         <!-- Proprietary Blobs -->
 	<project path="vendor/essential/mata" name="[COLOUR IN THE LINES]/proprietary_vendor_essential_mata" remote="github" revision="lineage-21" />
 	<project path="vendor/fairphone/FP3" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP3" remote="github" revision="lineage-21" />
