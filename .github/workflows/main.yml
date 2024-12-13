@@ -59,14 +59,6 @@ jobs:
         run: |
           cat $GITHUB_WORKSPACE/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
 
-      - name: Vendor blobs
-        run: |
-          cd $HOME/DivestOS/Build/LineageOS-21.0
-          githuborg="android-generic"  # put the correct github organization here
-          sed -i "/github/s/\[COLOUR IN THE LINES\]/$githuborg/g" .repo/local_manifests/local_manifest.xml
-          gitlaborg="android-generic"  # put the correct gitlab organization here
-          sed -i "/gitlab/s/\[COLOUR IN THE LINES\]/$gitlaborg/g" .repo/local_manifests/local_manifest.xml
-
       - name: Download source code
         run: |
           cd $HOME/DivestOS/Build/LineageOS-21.0
