@@ -17,6 +17,16 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Configure Git
+        run: |
+          umask 0022
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git lfs install
+          sed -i 's|git@gitlab.com:|https://gitlab.com/|' .git/config .gitmodules
+          git submodule update --init --recursive
+
+      - name: Checkout repository
       - uses: actions/checkout@v4
 
       - name: Install dependencies
@@ -30,15 +40,6 @@ jobs:
           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
           chmod a+rx ~/.bin/repo
           echo ~/.bin >> $GITHUB_PATH
-
-      - name: Configure Git
-        run: |
-          umask 0022
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git lfs install
-          sed -i 's|git@gitlab.com:|https://gitlab.com/|' .git/config .gitmodules
-          git submodule update --init --recursive
 
       - name: Setup caching
         run: |
