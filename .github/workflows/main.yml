@@ -28,13 +28,13 @@ jobs:
           
       - name: Make directories
         run: |
-          mkdir -p $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
+          mkdir -p $HOME/DivestOS-Build/Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
           
       - name: Checkout repository
         uses: actions/checkout@v4
         
       - name: Copy files
-        run: cp -r "$GITHUB_WORKSPACE/*" $HOME/DivestOS
+        run: cp -r "$GITHUB_WORKSPACE/" $HOME/
        
       - name: Install dependencies
         run: |
@@ -60,17 +60,17 @@ jobs:
 
       - name: Get Manifest
         run: |
-          cat $HOME/DivestOS/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
+          cat $HOME/DivestOS-Build/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
 
       - name: Download source code
         run: |
-          cd $HOME/DivestOS/Build/LineageOS-21.0
+          cd $HOME/DivestOS-Build/Build/LineageOS-21.0
           repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs --repo-url=https://gerrit.googlesource.com/git-repo --repo-rev=stable
           repo sync --force-sync
           
       - name: Start build
         run: |
-          cd $HOME/DivestOS/Build/LineageOS-21.0;
+          cd $HOME/DivestOS-Build/Build/LineageOS-21.0;
           source $HOME/DivestOS/Scripts/init.sh;
           resetWorkspace;
           # Remove remenants
