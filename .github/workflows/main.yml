@@ -64,15 +64,6 @@ jobs:
           cd $HOME/DivestOS/Build/LineageOS-21.0
           repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs --repo-url=https://gerrit.googlesource.com/git-repo --repo-rev=stable
           repo sync --force-sync
-
-      - name: Generate signed keys
-        run: |
-          cd $HOME/DivestOS/Build/LineageOS-21.0
-          source ../../Scripts/init.sh;
-          awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk
-          source build/envsetup.sh && breakfast lineage_sailfish-user && make -j20 generate_verity_key
-          sh ../../Scripts/Generate_Signing_Keys.sh $device
-          mv -nv $DOS_SIGNING_KEYS/NEW/* "$DOS_SIGNING_KEYS/"
           
       - name: Start build
         run: |
