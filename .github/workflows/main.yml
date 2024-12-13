@@ -57,7 +57,7 @@ jobs:
       - name: Get Manifest
         run: |
           cd $HOME/DivestOS/Build/LineageOS-21.0
-          cat ../../Manifests/Manifest_LAOS-20.0.xml > .repo/local_manifests/local_manifest.xml
+          cat ../../Manifests/Manifest_LAOS-21.0.xml > .repo/local_manifests/local_manifest.xml
 
       - name: Vendor blobs
         run: |
