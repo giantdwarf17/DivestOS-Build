@@ -25,12 +25,16 @@ jobs:
           git lfs install
           sed -i 's|git@gitlab.com:|https://gitlab.com/|' .git/config .gitmodules
           git submodule update --init --recursive
-
+          
+      - name: Make directories
+        run: |
+          mkdir -p $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
+          
       - name: Checkout repository
         uses: actions/checkout@v4
         
       - name: Copy files
-        run: cp -r "$GITHUB_WORKSPACE/" $HOME/DivestOS
+        run: cp -r "$GITHUB_WORKSPACE/DivestOS-Build" $HOME/DivestOS
        
       - name: Install dependencies
         run: |
@@ -53,10 +57,6 @@ jobs:
           echo "export CCACHE_EXEC=/usr/bin/ccache;" >> $GITHUB_PATH
           echo "export CCACHE_DIR=[PATH TO CCACHE DIRECTORY];" >> $GITHUB_PATH
           ccache -M 128GB
-          
-      - name: Make directories
-        run: |
-          mkdir -p $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
 
       - name: Get Manifest
         run: |
