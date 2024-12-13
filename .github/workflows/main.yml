@@ -68,7 +68,7 @@ jobs:
       - name: Start build
         run: |
           cd $HOME/DivestOS/Build/LineageOS-21.0;
-          source ../../Scripts/init.sh;
+          source $GITHUB_WORKSPACE/Scripts/init.sh;
           resetWorkspace;
           # Remove remenants
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
