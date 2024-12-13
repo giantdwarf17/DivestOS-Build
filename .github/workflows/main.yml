@@ -28,7 +28,10 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        
+      - name: Copy files
+        run: cp -r "$GITHUB_WORKSPACE/" $HOME/DivestOS
+       
       - name: Install dependencies
         run: |
           sudo apt update -y
@@ -57,7 +60,7 @@ jobs:
 
       - name: Get Manifest
         run: |
-          cat $GITHUB_WORKSPACE/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
+          cat $HOME/DivestOS/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
 
       - name: Download source code
         run: |
@@ -68,7 +71,7 @@ jobs:
       - name: Start build
         run: |
           cd $HOME/DivestOS/Build/LineageOS-21.0;
-          source $GITHUB_WORKSPACE/Scripts/init.sh;
+          source $HOME/DivestOS/Scripts/init.sh;
           resetWorkspace;
           # Remove remenants
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
