@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Copy files
-        run: cp -r "$GITHUB_WORKSPACE/DivestOS-Build" $HOME/DivestOS
+        run: cp -r "$GITHUB_WORKSPACE/*" $HOME/DivestOS
        
       - name: Install dependencies
         run: |
