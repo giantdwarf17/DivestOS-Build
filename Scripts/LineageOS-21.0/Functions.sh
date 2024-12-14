@@ -125,7 +125,7 @@ patchWorkspaceReal() {
 	sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
-	source build/envsetup.sh;
+	. build/envsetup.sh;
 }
 export -f patchWorkspaceReal;
 
