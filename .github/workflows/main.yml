@@ -77,7 +77,7 @@ jobs:
           rm -rf out;
           #patchWorkspace;
           breakfast virtio_x86_64_tv
-          m espimage-install
+          m isoimage-install
         shell: bash
           
       - name: Set current date as env variable
