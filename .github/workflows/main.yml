@@ -69,9 +69,10 @@ jobs:
           repo sync --force-sync
           
       - name: Start build
+        shell: bash
         run: |
           cd $HOME/DivestOS-Build/Build/LineageOS-21.0;
-          . $HOME/DivestOS-Build/Scripts/init.sh;
+          source $HOME/DivestOS-Build/Scripts/init.sh;
           resetWorkspace;
           # Remove remenants
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
