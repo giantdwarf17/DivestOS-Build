@@ -76,7 +76,7 @@ jobs:
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
           rm -rf out;
           #patchWorkspace;
-          breakfast sdk_tv_x86_64 eng
+          breakfast atv eng
           mka
         shell: bash
           
