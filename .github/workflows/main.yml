@@ -82,7 +82,7 @@ jobs:
           cd $HOME/DivestOS-Build/Build/LineageOS-21.0/
           source $HOME/DivestOS-Build/Scripts/init.sh;
           awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk; #Workaround for 20.0+ only
-          source build/envsetup.sh && breakfast sdk_tv_x86_64 eng && make -j20 generate_verity_key; #Edit device if not available, can be any
+          source build/envsetup.sh && breakfast android_device_lineage_atv eng && make -j20 generate_verity_key; #Edit device if not available, can be any
           sh $HOME/DivestOS-Build/Scripts/Generate_Signing_Keys.sh $device; #Repeat as needed for other devices
           mv -nv $DOS_SIGNING_KEYS/NEW/* "$DOS_SIGNING_KEYS/"; #Move the new keys into place
           
@@ -95,7 +95,7 @@ jobs:
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
           rm -rf out;
           patchWorkspace;
-          buildDevice sdk_tv_x86_64
+          buildDevice android_device_lineage_atv
         shell: bash
           
       - name: Set current date as env variable
