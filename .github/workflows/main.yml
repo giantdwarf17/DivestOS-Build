@@ -76,8 +76,8 @@ jobs:
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
           rm -rf out;
           #patchWorkspace;
-          breakfast atv eng
-          mka
+          breakfast virtio_x86_64_tv
+          m espimage-install
         shell: bash
           
       - name: Set current date as env variable
