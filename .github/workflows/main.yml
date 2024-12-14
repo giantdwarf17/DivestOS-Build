@@ -18,14 +18,7 @@ jobs:
     runs-on: self-hosted
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Verify bash
-        run: which bash
-      
-      - name: Check default shell
-        run: echo $SHELL
-        
+    steps:        
       - name: Configure Git
         run: |
           umask 0022
@@ -39,11 +32,11 @@ jobs:
         run: |
           mkdir -p $HOME/DivestOS-Build/Build/LineageOS-21.0
           
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
         
-      - name: Copy files
-        run: cp -r "$GITHUB_WORKSPACE/" $HOME/
+      # - name: Copy files
+      #   run: cp -r "$GITHUB_WORKSPACE/" $HOME/
        
       - name: Install dependencies
         run: |
@@ -76,14 +69,15 @@ jobs:
       - name: Start build
         run: |
           cd $HOME/DivestOS-Build/Build/LineageOS-21.0;
-          source $HOME/DivestOS-Build/Scripts/init.sh;
+          # source $HOME/DivestOS-Build/Scripts/init.sh;
           source $HOME/DivestOS-Build/Build/LineageOS-21.0/build/envsetup.sh;
-          resetWorkspace;
+          # resetWorkspace;
           # Remove remenants
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
           rm -rf out;
           #patchWorkspace;
           breakfast sdk_tv_x86_64 eng
+          mka
         shell: bash
           
       - name: Set current date as env variable
