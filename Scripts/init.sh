@@ -103,8 +103,8 @@ export DOS_THEME_700="E64A19"; #Deep Orange 700
 #
 #END OF USER CONFIGURABLE OPTIONS
 #
-[ -f "$HOME/.divested.vars" ] && source $HOME/.divested.vars && echo "included $HOME/.divested.vars config"
-[ -f "$HOME/.divested.vars.${BDEVICE}" ] && source $HOME/.divested.vars.${BDEVICE} && echo "included $HOME/.divested.vars.${BDEVICE} config"
+[ -f "$HOME/.divested.vars" ] && . $HOME/.divested.vars && echo "included $HOME/.divested.vars config"
+[ -f "$HOME/.divested.vars.${BDEVICE}" ] && . $HOME/.divested.vars.${BDEVICE} && echo "included $HOME/.divested.vars.${BDEVICE} config"
 
 umask 0022;
 
@@ -184,10 +184,10 @@ gpgVerifyGitHead "$DOS_PATCHES_LINUX_CVES";
 gpgVerifyGitHead "$DOS_WALLPAPERS";
 #END OF VERIFICATION
 
-source "$DOS_SCRIPTS_COMMON/Shell.sh";
-source "$DOS_SCRIPTS_COMMON/Functions.sh";
-source "$DOS_SCRIPTS_COMMON/Tag_Verifier.sh";
-source "$DOS_SCRIPTS/Functions.sh";
+. "$DOS_SCRIPTS_COMMON/Shell.sh";
+. "$DOS_SCRIPTS_COMMON/Functions.sh";
+. "$DOS_SCRIPTS_COMMON/Tag_Verifier.sh";
+. "$DOS_SCRIPTS/Functions.sh";
 
 [[ -f "$DOS_BUILD_BASE/.repo/local_manifests/roomservice.xml" ]] && echo "roomservice manifest found! Please fix your manifests before continuing!";
 [[ -f "$DOS_BUILD_BASE/DOS_PATCHED_FLAG" ]] && echo "NOTE: THIS WORKSPACE IS ALREADY PATCHED, PLEASE RESET BEFORE PATCHING AGAIN!";
