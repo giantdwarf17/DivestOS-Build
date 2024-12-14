@@ -63,6 +63,9 @@ jobs:
           source $HOME/DivestOS-Build/Scripts/init.sh;
           awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk; #Workaround for 20.0+ only
           source build/envsetup.sh && breakfast lineage_atv-user && make -j20 generate_verity_key; #Edit device if not available, can be any
+      
+      - name: Generate keys 2
+        run: |
           sh $HOME/DivestOS-Build/Scripts/Generate_Signing_Keys.sh $device; #Repeat as needed for other devices
           mv -nv $DOS_SIGNING_KEYS/NEW/* "$DOS_SIGNING_KEYS/"; #Move the new keys into place
           
