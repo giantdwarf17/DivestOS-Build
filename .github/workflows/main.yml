@@ -85,8 +85,8 @@ jobs:
           # Remove remenants
           rm -rf packages/apps/Fennec_DOS-Shim/ vendor/divested/ vendor/fdroid_prebuilt/ packages/apps/SupportDivestOS/ packages/apps/OpenEUICC/
           rm -rf out;
-          patchWorkspace;
-          buildDeviceDebug atv
+          #patchWorkspace;
+          breakfast sdk_tv_x86_64 eng
         shell: bash
           
       - name: Set current date as env variable
