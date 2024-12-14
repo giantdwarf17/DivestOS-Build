@@ -37,7 +37,7 @@ jobs:
           
       - name: Make directories
         run: |
-          mkdir -p $HOME/DivestOS-Build/Build/LineageOS-21.0/.repo/local_manifests Builds Signing_Keys .Signing_Keys
+          mkdir -p $HOME/DivestOS-Build/Build/LineageOS-21.0
           
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -66,10 +66,6 @@ jobs:
           echo "export CCACHE_EXEC=/usr/bin/ccache;" >> $GITHUB_PATH
           echo "export CCACHE_DIR=[PATH TO CCACHE DIRECTORY];" >> $GITHUB_PATH
           ccache -M 128GB
-
-      - name: Get Manifest
-        run: |
-          cat $HOME/DivestOS-Build/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS-Build/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
 
       - name: Download source code
         run: |
