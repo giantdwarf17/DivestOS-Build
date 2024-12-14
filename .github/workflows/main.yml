@@ -52,7 +52,7 @@ jobs:
           
       - name: Setup caching
         run: |
-          mkdir ccache
+          mkdir -p ccache
           echo "export USE_CCACHE=1;" >> $GITHUB_PATH
           echo "export CCACHE_COMPRESS=1;" >> $GITHUB_PATH
           echo "export CCACHE_COMPRESSLEVEL=1;" >> $GITHUB_PATH
