@@ -56,18 +56,6 @@ jobs:
           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
           chmod a+rx ~/.bin/repo
           echo ~/.bin >> $GITHUB_PATH
-
-      - name: Generate signed keys
-        run: |
-          cd $HOME/DivestOS-Build
-          source $HOME/DivestOS-Build/Scripts/init.sh;
-          awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk; #Workaround for 20.0+ only
-          source build/envsetup.sh && breakfast lineage_atv-user && make -j20 generate_verity_key; #Edit device if not available, can be any
-      
-      - name: Generate keys 2
-        run: |
-          sh $HOME/DivestOS-Build/Scripts/Generate_Signing_Keys.sh $device; #Repeat as needed for other devices
-          mv -nv $DOS_SIGNING_KEYS/NEW/* "$DOS_SIGNING_KEYS/"; #Move the new keys into place
           
       - name: Setup caching
         run: |
@@ -88,6 +76,15 @@ jobs:
           cd $HOME/DivestOS-Build/Build/LineageOS-21.0
           repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs --repo-url=https://gerrit.googlesource.com/git-repo --repo-rev=stable
           repo sync --force-sync
+
+      - name: Generate signed keys
+        run: |
+          cd $HOME/DivestOS-Build/Build/LineageOS-21.0
+          source $HOME/DivestOS-Build/Scripts/init.sh;
+          awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk; #Workaround for 20.0+ only
+          source build/envsetup.sh && breakfast lineage_atv-user && make -j20 generate_verity_key; #Edit device if not available, can be any
+          sh $HOME/DivestOS-Build/Scripts/Generate_Signing_Keys.sh $device; #Repeat as needed for other devices
+          mv -nv $DOS_SIGNING_KEYS/NEW/* "$DOS_SIGNING_KEYS/"; #Move the new keys into place
           
       - name: Start build
         run: |
