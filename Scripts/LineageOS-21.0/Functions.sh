@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #DivestOS: A mobile operating system divested from the norm.
 #Copyright (c) 2017-2024 Divested Computing Group
 #
@@ -125,7 +125,7 @@ patchWorkspaceReal() {
 	sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
-	. build/envsetup.sh;
+	source build/envsetup.sh;
 }
 export -f patchWorkspaceReal;
 
