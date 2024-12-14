@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #DivestOS: A mobile operating system divested from the norm.
 #Copyright (c) 2022 Divested Computing Group
 #
