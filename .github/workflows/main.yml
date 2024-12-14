@@ -60,7 +60,7 @@ jobs:
 
       - name: Get Manifest
         run: |
-          cat $HOME/DivestOS-Build/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
+          cat $HOME/DivestOS-Build/Manifests/Manifest_LAOS-21.0.xml > $HOME/DivestOS-Build/Build/LineageOS-21.0/.repo/local_manifests/local_manifest.xml
 
       - name: Download source code
         run: |
