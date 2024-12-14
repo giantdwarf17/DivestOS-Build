@@ -69,7 +69,6 @@ jobs:
           repo sync --force-sync
           
       - name: Start build
-        shell: bash
         run: |
           cd $HOME/DivestOS-Build/Build/LineageOS-21.0;
           . $HOME/DivestOS-Build/Scripts/init.sh;
@@ -79,6 +78,7 @@ jobs:
           rm -rf out;
           patchWorkspace;
           buildDevice atv
+        shell: bash
           
       - name: Set current date as env variable
         run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
