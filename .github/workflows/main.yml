@@ -19,24 +19,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:        
-      - name: Configure Git
-        run: |
-          umask 0022
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git lfs install
-          sed -i 's|git@gitlab.com:|https://gitlab.com/|' .git/config .gitmodules
-          git submodule update --init --recursive
-          
       - name: Make directories
         run: |
           mkdir -p $HOME/DivestOS-Build/Build/LineageOS-21.0
-          
-      # - name: Checkout repository
-      #   uses: actions/checkout@v4
-        
-      # - name: Copy files
-      #   run: cp -r "$GITHUB_WORKSPACE/" $HOME/
        
       - name: Install dependencies
         run: |
@@ -50,6 +35,15 @@ jobs:
           chmod a+rx ~/.bin/repo
           echo ~/.bin >> $GITHUB_PATH
           
+      - name: Configure Git
+        run: |
+          umask 0022
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git lfs install
+          sed -i 's|git@gitlab.com:|https://gitlab.com/|' .git/config .gitmodules
+          git submodule update --init --recursive
+          
       - name: Setup caching
         run: |
           mkdir -p ccache
@@ -59,7 +53,13 @@ jobs:
           echo "export CCACHE_EXEC=/usr/bin/ccache;" >> $GITHUB_PATH
           echo "export CCACHE_DIR=[PATH TO CCACHE DIRECTORY];" >> $GITHUB_PATH
           ccache -M 128GB
-
+          
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
+        
+      # - name: Copy files
+      #   run: cp -r "$GITHUB_WORKSPACE/" $HOME/
+      
       - name: Download source code
         run: |
           cd $HOME/DivestOS-Build/Build/LineageOS-21.0
