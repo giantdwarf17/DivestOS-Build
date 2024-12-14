@@ -79,7 +79,7 @@ jobs:
 
       - name: Generate signed keys
         run: |
-          cd $HOME/DivestOS-Build/Build/LineageOS-21.0
+          cd $HOME/DivestOS-Build/
           source $HOME/DivestOS-Build/Scripts/init.sh;
           awk -i inplace '!/enforce-product-packages-exist-internal/' vendor/lineage/config/common.mk; #Workaround for 20.0+ only
           source build/envsetup.sh && breakfast lineage_atv-user && make -j20 generate_verity_key; #Edit device if not available, can be any
